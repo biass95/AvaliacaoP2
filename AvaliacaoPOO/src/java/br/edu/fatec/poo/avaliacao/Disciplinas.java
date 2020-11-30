@@ -6,6 +6,7 @@
 package br.edu.fatec.poo.avaliacao;
 
 import java.util.ArrayList;
+import java.sql.*;
 
 /**
  *
@@ -57,11 +58,32 @@ public class Disciplinas {
     
     public static ArrayList<Disciplinas> getList(){
      ArrayList<Disciplinas> list = new ArrayList<>();
-     list.add(new Disciplinas("Nome 1", "Ementa 1", 6));
-     list.add(new Disciplinas("Nome 2", "Ementa 2", 6));
-     list.add(new Disciplinas("Nome 3", "Ementa 3", 6));
-     list.add(new Disciplinas("Nome 4", "Ementa 4", 6));
+     Connection con = null;
+     Statement stmt = null;
+     ResultSet rs = null;
+     
+        try {
+            con = DbListener.getConnection();
+            stmt = con.createStatement();
+            stmt.execute("SELECT * FROM disciplinas");
+                while(rs.next()){
+                    list.add(new Disciplinas(
+                            rs.getString("nome"),
+                            rs.getString("ementa"), 
+                            rs.getInt("ciclo")));
+                }
+        } catch (Exception e) {
+        }
+    
      return list;
+    }
+    
+    public static String getCreateStatement(){
+    return "CREATE TABLE IF NOT EXISTS disciplinas ("
+                + "nome VARCHAR(200) PRIMARY KEY,"
+                + "ementa VARCHAR(200),"
+                + "ciclo INTEGER "
+                +  ")";
     }
     
 }

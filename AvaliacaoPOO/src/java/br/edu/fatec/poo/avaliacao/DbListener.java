@@ -5,10 +5,46 @@
  */
 package br.edu.fatec.poo.avaliacao;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.sql.*;
+
 /**
  * Web application lifecycle listener.
  *
  * @author biancasobral
  */
-public class DbListener {
+public class DbListener implements ServletContextListener {
+    public static String DRIVER_CLASS = "org.sqlite.JDBC";
+    public static String DATABASE_URL = "jdbc:sqlite:avaliacaoP2.db ";
+    
+    public static Exception exception = null;
+    
+    public static Connection getConnection() throws Exception{
+    return DriverManager.getConnection(DATABASE_URL);
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        Connection con = null;
+        Statement stmt = null;
+        
+        try {
+            Class.forName(DRIVER_CLASS);
+            con = getConnection();
+            stmt = con.createStatement();
+            stmt.execute(Disciplinas.getCreateStatement());
+            //if (Disciplinas.getList() == null){}
+            con.close();
+            stmt.close();
+        } catch (Exception e) {
+        } finally {
+            try {con.close();} catch (Exception e) {}
+            try {stmt.close();} catch (Exception e) {}
+        }
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+    }
 }
