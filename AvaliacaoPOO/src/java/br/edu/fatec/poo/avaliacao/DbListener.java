@@ -34,7 +34,18 @@ public class DbListener implements ServletContextListener {
             con = getConnection();
             stmt = con.createStatement();
             stmt.execute(Disciplinas.getCreateStatement());
-            //if (Disciplinas.getList() == null){}
+            if (Disciplinas.getList() == null){
+                stmt.execute("INSERT INTO diciplinas VALUES("
+                        + "'Programacao Orientada a Objeto'"
+                        + "'Ementa blabla'"
+                        + "4"
+                        + ")");
+                        stmt.execute("INSERT INTO diciplinas VALUES("
+                        + "'Gestao de Projetos'"
+                        + "'Ementa blabla'"
+                        + "6"
+                        + ")");
+            }
             con.close();
             stmt.close();
         } catch (Exception e) {
