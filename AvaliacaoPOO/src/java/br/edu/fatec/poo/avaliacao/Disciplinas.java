@@ -73,6 +73,10 @@ public class Disciplinas {
                             rs.getInt("ciclo")));
                 }
         } catch (Exception e) {
+            DbListener.exception = e;
+        } finally {
+            try {con.close();} catch (Exception e) {}
+            try {stmt.close();} catch (Exception e) {}
         }
     
      return list;
@@ -84,6 +88,16 @@ public class Disciplinas {
                 + "ementa VARCHAR(200),"
                 + "ciclo INTEGER "
                 +  ")";
+    }
+    
+    public static void insertDisciplina(String nome, String ementa, int ciclo) {
+        try {
+            Connection con = DbListener.getConnection();
+            Statement stmt = con.createStatement();
+            stmt.execute("insert into disciplinas values('"+nome+"','"+ementa+"',"+ciclo+""
+            + ")" );
+        } catch (Exception e) {
+        }
     }
     
 }

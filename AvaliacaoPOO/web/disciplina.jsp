@@ -48,11 +48,11 @@
                 <th>Nota</th>
                 <th>Alterar nota</th>    
             </tr>
-            <%  for(int i = 0; i < list.size(); i++){ %>
+            <%  for(int i = 0; i < list.size(); i++ ) { %>
             <tr>
-                <td><%= i %></td>
+                <td><%= i %>/td>
                 <td><%= list.get(i).getName() %></td>
-                <td><%= list.get(i).getNota()%></td>
+                <td><%= list.get(i).getNota() %></td>
                 <td>
                     <form>
                         <input type="hidden" name="i" value="<%= i %>"/>
